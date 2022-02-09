@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.zerock.ex3.dto.SampleDTO;
 
 import java.time.LocalDateTime;
@@ -27,7 +28,7 @@ public class SampleController {
     /**
      *SampleDTO 타입 객체를 20개 추가하고 이를 Model에 담아서 전송.
      */
-    @GetMapping({"/ex2"})
+    @GetMapping({"/ex2","exLink"})   //value 속성값을 '{}'로 처리하면 하나 이상의 URL을 지정가능
     public void exModel(Model model){
 
         List<SampleDTO> list = IntStream.rangeClosed(1,20).asLongStream().
@@ -42,6 +43,28 @@ public class SampleController {
         }).collect(Collectors.toList());
 
         model.addAttribute("list",list);
+    }
+    @GetMapping({"/exInline"})
+    public String exInline(RedirectAttributes redirectAttributes){
+
+        log.info("exInline..............");
+
+        SampleDTO dto = SampleDTO.builder()
+                .sno(100L)
+                .first("First..100")
+                .last("Last..100")
+                .regTime(LocalDateTime.now())
+                .build();
+        redirectAttributes.addFlashAttribute("result", "success");
+        redirectAttributes.addFlashAttribute("dto", dto);
+
+        return "redirect:/sample/ex3";
+    }
+    @GetMapping("/ex3")
+    public void ex3(){
+
+        log.info("ex3");
+
     }
 
 }
