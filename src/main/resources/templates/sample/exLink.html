@@ -23,6 +23,14 @@
         [[${dto.sno}]]  --- [[${#temporals.format(dto.regTime, 'yyyy/MM/dd')}]]
     </li>
 </ul>
+<ul>
+    <th:block th:each="dto:${list}">
+        <li>
+            <a th:href="@{'/ex4/'+${dto.sno}(first=${dto.sno})}">[[${dto}]]</a>
+            <h3 th:text="${#temporals.format(dto.regTime,'yyyy/MM/dd')}"></h3>
+        </li>
+    </th:block>
+</ul>
 
 </body>
 </html>
